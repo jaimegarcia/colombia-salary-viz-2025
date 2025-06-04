@@ -101,6 +101,138 @@ def analyze_usd_salary_thresholds(processed_df):
     
     return p99
 
+def identify_eliminated_records(original_df):
+    """Identify all records that would be eliminated and their reasons."""
+    
+    # Column mappings
+    currency_col = '¿A usted le pagan en pesos colombianos (COP) o dólares americanos (USD) en su trabajo principal? Si le pagan en otra moneda seleccione dólares y convierta a la tasa de cambio del día que realizó la encuesta para las próximas preguntas'
+    experience_col = '¿Cuántos años de experiencia en desarrollo de software tiene?'
+    language_col = '¿En cuál de los siguientes lenguajes de programación ocupa la mayor parte de su tiempo laboral?'
+    
+    # Get salary columns by position (more reliable than complex names)
+    base_salary_usd_col = 15  # Column 16 (0-indexed)
+    total_salary_usd_col = 16  # Column 17 (0-indexed)
+    base_salary_cop_col = 18  # Column 19 (0-indexed)
+    total_salary_cop_col = 19  # Column 20 (0-indexed)
+    
+    eliminated_records = []
+    
+    for idx, row in original_df.iterrows():
+        issues = []
+        
+        # Get basic info
+        currency = row.get(currency_col)
+        experience = row.get(experience_col)
+        language = row.get(language_col)
+        
+        # Get salary data by position
+        base_salary_usd = row.iloc[base_salary_usd_col] if len(row) > base_salary_usd_col else None
+        total_salary_usd = row.iloc[total_salary_usd_col] if len(row) > total_salary_usd_col else None
+        base_salary_cop = row.iloc[base_salary_cop_col] if len(row) > base_salary_cop_col else None
+        total_salary_cop = row.iloc[total_salary_cop_col] if len(row) > total_salary_cop_col else None
+        
+        # Check for missing currency
+        if pd.isna(currency) or currency == '':
+            issues.append("Missing Currency")
+        
+        # Determine effective salary based on currency
+        if not pd.isna(currency):
+            if 'USD' in str(currency) or 'Dólares' in str(currency):
+                effective_base = base_salary_usd
+                effective_total = total_salary_usd
+                salary_type = "USD"
+            elif 'COP' in str(currency) or 'Pesos' in str(currency):
+                effective_base = base_salary_cop
+                effective_total = total_salary_cop
+                salary_type = "COP"
+            else:
+                effective_base = None
+                effective_total = None
+                salary_type = "Unknown"
+        else:
+            effective_base = None
+            effective_total = None
+            salary_type = "Unknown"
+        
+        # Check for missing all salaries
+        if pd.isna(effective_base) and pd.isna(effective_total):
+            issues.append("Missing All Salaries")
+        
+        # Check experience
+        if pd.isna(experience):
+            issues.append("Missing Experience")
+        elif experience < 0 or experience > 50:
+            issues.append("Invalid Experience")
+        
+        # Check language
+        if pd.isna(language) or language == '':
+            issues.append("Missing Language")
+        
+        # Check for unrealistic values
+        if not pd.isna(effective_total) and effective_total > 0:
+            if salary_type == "USD":
+                if effective_total < 2500:
+                    issues.append("Unrealistic Usd Low")
+                elif effective_total > 500000:
+                    issues.append("Unrealistic Usd High")
+            elif salary_type == "COP":
+                if effective_total < 10000000:  # < 10M COP
+                    issues.append("Unrealistic Cop Low")
+                elif effective_total > 1000000000:  # > 1B COP
+                    issues.append("Unrealistic Cop High")
+        
+        # Check if total < base
+        if not pd.isna(effective_base) and not pd.isna(effective_total):
+            if effective_total < effective_base:
+                issues.append("Total Less Than Base")
+        
+        # If there are any issues, this record would be eliminated
+        if issues:
+            eliminated_records.append({
+                'original_index': idx,
+                'currency': currency,
+                'experience_years': experience,
+                'programming_language': language,
+                'salary_type': salary_type,
+                'base_salary_usd': base_salary_usd,
+                'total_salary_usd': total_salary_usd,
+                'base_salary_cop': base_salary_cop,
+                'total_salary_cop': total_salary_cop,
+                'effective_base_salary': effective_base,
+                'effective_total_salary': effective_total,
+                'issues': '; '.join(issues),
+                'issue_count': len(issues)
+            })
+    
+    return eliminated_records
+
+def save_eliminated_records_csv(eliminated_records):
+    """Save eliminated records to CSV file."""
+    if not eliminated_records:
+        print("No eliminated records to save.")
+        return None
+    
+    df_eliminated = pd.DataFrame(eliminated_records)
+    output_file = 'eliminated_records_2025.csv'
+    df_eliminated.to_csv(output_file, index=False)
+    
+    print(f"\n💾 ELIMINATED RECORDS SAVED TO CSV:")
+    print(f"   File: {output_file}")
+    print(f"   Records: {len(eliminated_records):,}")
+    print(f"   Columns: {len(df_eliminated.columns)}")
+    
+    # Show sample issues breakdown
+    issue_counts = {}
+    for record in eliminated_records:
+        for issue in record['issues'].split('; '):
+            issue_counts[issue] = issue_counts.get(issue, 0) + 1
+    
+    print(f"\n   Top Issues:")
+    for issue, count in sorted(issue_counts.items(), key=lambda x: x[1], reverse=True)[:5]:
+        print(f"     - {issue}: {count:,} records")
+    
+    return output_file
+
 def analyze_data_quality_issues(original_df):
     """Analyze the original dataset for data quality issues."""
     print("\n" + "=" * 60)
@@ -265,6 +397,10 @@ def main():
     # Analyze data quality issues in original data
     problematic_count = analyze_data_quality_issues(original_df)
     
+    # Identify and save eliminated records to CSV
+    eliminated_records = identify_eliminated_records(original_df)
+    csv_file = save_eliminated_records_csv(eliminated_records)
+    
     # Final summary
     print("\n" + "=" * 60)
     print("SUMMARY")
@@ -284,6 +420,10 @@ def main():
     print(f"  - Most eliminations were due to missing/invalid salary data")
     print(f"  - Remaining {len(processed_df):,} records provide reliable salary insights")
     print(f"  - Consider data validation in future surveys to reduce elimination")
+    
+    if csv_file:
+        print(f"\n✅ Eliminated records exported to: {csv_file}")
+        print(f"   You can now analyze the {len(eliminated_records):,} eliminated records in detail.")
 
 if __name__ == "__main__":
     main()
