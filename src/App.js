@@ -105,7 +105,7 @@ function App() {
         </Toolbar>
       </AppBar>
       <h3>
-        Hecho por Jaime García. Datos: Encuesta de La Plaza Devs 2025 (916
+        Hecho por Jaime García. Datos: Encuesta de La Plaza Devs 2025 (932
         personas)
       </h3>
 
