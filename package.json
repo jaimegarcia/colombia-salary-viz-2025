@@ -3,7 +3,6 @@
   "homepage": "https://jaimegarcia.github.io/colombia-salary-viz-2025",
   "version": "0.1.0",
   "private": true,
-  "packageManager": "pnpm@9.14.4",
   "dependencies": {
     "@mui/material": "^6.1.8",
     "@mui/icons-material": "^6.1.8",
@@ -28,8 +27,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "pnpm run build",
-    "deploy": "gh-pages -d build"
+    "predeploy": "npm run build",
+    "deploy": "npx gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
