@@ -6,6 +6,8 @@ node_modules/
 # Testing
 /coverage
 
+# Producton
+build/
 
 # Misc
 .DS_Store
