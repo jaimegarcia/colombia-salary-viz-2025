@@ -57,8 +57,8 @@ def analyze_cop_salary_thresholds(processed_df):
         print(f"  {salary/1e6:6.1f}M COP (${salary/usd_rate:8,.0f} USD)")
     
     # Low salary analysis
-    print(f"\n🔍 VERY LOW COP SALARIES (<20M COP = ~${20000000/usd_rate:,.0f} USD):")
-    low_salaries = cop_salaries[cop_salaries < 20000000]
+    print(f"\n🔍 VERY LOW COP SALARIES (<1M COP = ~${1000000/usd_rate:,.0f} USD):")
+    low_salaries = cop_salaries[cop_salaries < 1000000]
     for salary in sorted(low_salaries):
         print(f"  {salary/1e6:6.1f}M COP (${salary/usd_rate:8,.0f} USD)")
     
@@ -94,8 +94,8 @@ def analyze_usd_salary_thresholds(processed_df):
         print(f"  ${salary:8,.0f}")
     
     # Low salary analysis  
-    print(f"\n🔍 VERY LOW USD SALARIES (<$15,000):")
-    low_salaries = usd_salaries[usd_salaries < 15000]
+    print(f"\n🔍 VERY LOW USD SALARIES (<$2,500):")
+    low_salaries = usd_salaries[usd_salaries < 2500]
     for salary in sorted(low_salaries):
         print(f"  ${salary:8,.0f}")
     
@@ -272,8 +272,8 @@ def main():
     print(f"📈 Salary Thresholds (from processed data):")
     print(f"  Extremely high COP: >{cop_threshold/1e6:.1f}M COP (>${cop_threshold/4300:,.0f} USD)")
     print(f"  Extremely high USD: >${usd_threshold:,.0f}")
-    print(f"  Very low COP: <20M COP (~$4,650 USD)")
-    print(f"  Very low USD: <$15,000")
+    print(f"  Very low COP: <1M COP (~$250 USD)")
+    print(f"  Very low USD: <$2500")
     
     print(f"\n📊 Data Quality:")
     print(f"  Records with data quality issues: {problematic_count:,}")
