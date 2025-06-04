@@ -1,0 +1,49 @@
+{
+  "name": "colombiadev-salary-visualization",
+  "homepage": "https://jaimegarcia.github.io/colombia-salary-viz-2025",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@9.14.4",
+  "dependencies": {
+    "@mui/material": "^6.1.8",
+    "@mui/icons-material": "^6.1.8",
+    "@emotion/react": "^11.13.5",
+    "@emotion/styled": "^11.13.5",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.0.1",
+    "@testing-library/user-event": "^14.5.2",
+    "d3": "^7.9.0",
+    "d3-simple-slider": "^1.10.4",
+    "crossfilter2": "^1.5.4",
+    "gh-pages": "^6.1.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-scripts": "^5.0.1",
+    "@nivo/bar": "^0.87.0",
+    "@nivo/core": "^0.87.0",
+    "@nivo/generators": "^0.87.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "predeploy": "pnpm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

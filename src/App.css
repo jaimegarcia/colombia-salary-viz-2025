@@ -1,0 +1,11 @@
+body {
+  overflow-y: scroll;
+}
+.App {
+  text-align: center;
+}
+.salary-value {
+  color: white;
+  background: #ed735f;
+  padding: 2px;
+}
