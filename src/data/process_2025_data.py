@@ -63,6 +63,18 @@ def load_and_process_data():
         total_salary_1 = row.iloc[total_salary_1_col] if len(row) > total_salary_1_col else None
         total_salary_2 = row.iloc[total_salary_2_col] if len(row) > total_salary_2_col else None
         
+        # Convert salary values to numeric, handling strings and empty values
+        def safe_numeric(value):
+            if pd.isna(value) or value == '':
+                return None
+            try:
+                return float(value)
+            except (ValueError, TypeError):
+                return None
+        
+        total_salary_1 = safe_numeric(total_salary_1)
+        total_salary_2 = safe_numeric(total_salary_2)
+        
         # Determine which set of data to use (prefer the one that has currency data)
         if not pd.isna(currency_1) and currency_1 != '':
             currency = currency_1

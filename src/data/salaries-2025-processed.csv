@@ -49,6 +49,7 @@ Pesos,Otro lenguaje de programación,Extranjera,Remoto,7,7,3,4,89907924.0
 Dólares,Javascript,Extranjera,Remoto,7,7,3,4,124800.0
 Pesos,Javascript,Colombiana con mercado nacional,Remoto,5,5,2,1,54000000.0
 Pesos,Typescript,Extranjera,Remoto,10,10,3,4,315000000.0
+Dólares,Javascript,Extranjera,Remoto,4,4,3,1,40867.0
 Dólares,Javascript,Extranjera,Remoto,4,4,2,5,43200.0
 Pesos,Javascript,Colombiana con mercado extranjero,Remoto,4,4,4,4,135200000.0
 Pesos,Soy Manager,Colombiana con mercado extranjero,Híbrido,5,5,2,4,66000000.0
@@ -480,6 +481,7 @@ Pesos,Typescript,Colombiana con mercado extranjero,Remoto,1,1,3,4,63000000.0
 Dólares,Javascript,Extranjera,Remoto,8,8,2,4,48000.0
 Pesos,Swift/Objective C,Extranjera,Híbrido,11,11,4,4,600000000.0
 Pesos,Javascript,Colombiana con mercado extranjero,Remoto,13,13,3,4,240000000.0
+Dólares,Typescript,Extranjera,Remoto,4,4,3,1,45600.0
 Pesos,Kotlin,Extranjera,Remoto,10,10,4,4,222000000.0
 Pesos,Python,Colombiana con mercado extranjero,Remoto,11,11,4,4,390000000.0
 Dólares,Scala,Extranjera,Remoto,12,12,4,4,180000.0
@@ -823,6 +825,7 @@ Pesos,Java,Colombiana con mercado nacional,Remoto,17,17,4,5,260000000.0
 Pesos,Typescript,Extranjera,Remoto,6,6,3,4,205000000.0
 Pesos,Javascript,Colombiana con mercado nacional,Remoto,8,8,2,4,82000000.0
 Dólares,Javascript,Extranjera,Remoto,9,9,3,4,56700.0
+Dólares,Javascript,Extranjera,Remoto,9,9,2,4,44400.0
 Pesos,Typescript,Colombiana con mercado nacional,Remoto,3,3,0,1,100000000.0
 Pesos,Javascript,Extranjera,Remoto,7,7,4,4,228000000.0
 Pesos,Kotlin,Extranjera,Híbrido,15,15,3,4,418000000.0

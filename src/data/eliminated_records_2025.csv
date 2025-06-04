@@ -1,6 +1,5 @@
 index,issues,currency,experience,language,salary_1,salary_2
 39,Unrealistic low COP salary: 9.0M,Pesos colombianos (COP),15.0,Javascript,,9000000.0
-51,Unrealistic low USD salary: $40.867,Dólares americanos (USD),4.0,Javascript,40.867,
 68,Unrealistic high USD salary: $505548000.0,Dólares americanos (USD),7.0,Typescript,505548000.0,
 89,Unrealistic low USD salary: $4750.0,Dólares americanos (USD),7.0,Javascript,4750.0,
 102,Unrealistic low COP salary: 0.0M,Pesos colombianos (COP),20.0,Typescript,,264.0
@@ -25,7 +24,7 @@ index,issues,currency,experience,language,salary_1,salary_2
 343,Unrealistic low USD salary: $4200.0,Dólares americanos (USD),4.0,Typescript,4200.0,
 346,Unrealistic low COP salary: 2.0M,Pesos colombianos (COP),1.0,Javascript,,2036120.0
 389,Unrealistic low COP salary: 5.3M,Pesos colombianos (COP),15.0,Java,,5300000.0
-391,Unrealistic high USD salary: $1.2312312312312312e+19,Dólares americanos (USD),5.0,Dart,1.2312312312312312e+19,
+391,Unrealistic high USD salary: $1.2312312312312314e+19,Dólares americanos (USD),5.0,Dart,1.2312312312312314e+19,
 394,Unrealistic low COP salary: 3.6M,Pesos colombianos (COP),4.0,Javascript,,3600000.0
 395,Unrealistic low COP salary: 4.0M,Pesos colombianos (COP),4.0,Javascript,,4000000.0
 401,Unrealistic low COP salary: 3.0M,Pesos colombianos (COP),1.7,SQL,,3000000.0
@@ -41,7 +40,6 @@ index,issues,currency,experience,language,salary_1,salary_2
 488,Unrealistic low COP salary: 0.0M,Pesos colombianos (COP),9.0,Go,120.0,
 498,Unrealistic low USD salary: $4000.0,Dólares americanos (USD),13.0,SQL,4000.0,
 517,Unrealistic low COP salary: 3.0M,Pesos colombianos (COP),2.0,Python,,3000000.0
-523,Unrealistic low USD salary: $45.6,Dólares americanos (USD),4.0,Typescript,45.6,
 527,Unrealistic low COP salary: 2.5M,Pesos colombianos (COP),1.0,C#,2500000.0,
 551,Unrealistic low COP salary: 6.5M,Pesos colombianos (COP),2.0,SQL,,6480000.0
 596,Unrealistic low USD salary: $600.0,Dólares americanos (USD),1.0,Javascript,,600.0
@@ -88,7 +86,6 @@ index,issues,currency,experience,language,salary_1,salary_2
 903,Unrealistic low COP salary: 3.5M,Pesos colombianos (COP),3.0,Javascript,,3500000.0
 904,Unrealistic low COP salary: 2.6M,Pesos colombianos (COP),4.0,Javascript,,2600000.0
 905,Unrealistic low COP salary: 0.2M,Pesos colombianos (COP),1.0,Typescript,,160000.0
-913,Unrealistic low USD salary: $44.4,Dólares americanos (USD),9.0,Javascript,44.4,
 938,Unrealistic low COP salary: 7.0M,Pesos colombianos (COP),6.0,Javascript,7000000.0,
 952,Unrealistic low COP salary: 9.5M,Pesos colombianos (COP),3.0,Python,,9500000.0
 956,Unrealistic high USD salary: $156000000.0,Dólares americanos (USD),13.0,Javascript,156000000.0,
