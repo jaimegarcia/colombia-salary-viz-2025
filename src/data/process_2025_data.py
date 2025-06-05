@@ -36,6 +36,7 @@ def load_and_process_data():
     english_col = '¿Cuál es su nivel de inglés? Marco de referencia Europeo'
     company_col = '¿Para qué tipo de empresa trabaja?'
     workmode_col = 'Su modo de trabajo es'
+    contract_col = '¿Cuál es el tipo de contrato que tiene con la empresa dónde ejerce su trabajo principal?'
     
     # Salary columns - using position is more reliable
     # First set of salary questions (columns 14-15)
@@ -58,6 +59,7 @@ def load_and_process_data():
         english_level = row.get(english_col)
         company_type = row.get(company_col)
         workmode = row.get(workmode_col)
+        contract_type = row.get(contract_col)
         
         # Get salary data by position - check both sets
         total_salary_1 = row.iloc[total_salary_1_col] if len(row) > total_salary_1_col else None
@@ -196,12 +198,21 @@ def load_and_process_data():
                 elif 'Híbrido' in str(workmode):
                     workmode_simple = "Híbrido"
             
+            # Simplify contract type
+            contract_simple = "Sin Respuesta"
+            if not pd.isna(contract_type):
+                if 'Laboral' in str(contract_type):
+                    contract_simple = "Laboral"
+                elif 'Prestación de servicios' in str(contract_type) or 'Contractor' in str(contract_type) or 'Independiente' in str(contract_type):
+                    contract_simple = "Prestación de servicios/Contractor/Independiente"
+            
             # Create the processed record
             processed_record = {
                 'currency': currency_simple,
                 'main-programming-language': language,
                 'company-type': company_simple,
                 'workmode': workmode_simple,
+                'contract-type': contract_simple,
                 'min-experience': int(experience),
                 'max-experience': int(experience),
                 'english-level': english_numeric,
