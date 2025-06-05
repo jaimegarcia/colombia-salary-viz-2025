@@ -31,6 +31,7 @@ function App() {
     experience: 0,
     'english-level': 1,
     'max-title': 1,
+    'factor-prestacional': 0.35, // Default 35% factor
   });
   const processData = () => {
     d3.csv(salaryFile, (d) => {
@@ -40,6 +41,7 @@ function App() {
         'company-type': d['company-type'].replace('empresa', ''),
         position: d['position'],
         workmode: d['workmode'],
+        'contract-type': d['contract-type'],
         'min-experience': +d['min-experience'],
         'max-experience': +d['max-experience'],
         'english-level': +d['english-level'],
@@ -71,10 +73,17 @@ function App() {
   useEffect(() => {
     if (salaryData) {
       let newSalaryData = salaryData.map((d) => {
-        d['income-cop'] =
+        let baseSalary =
           d['currency'] === 'Pesos'
             ? d['income-in-currency'] / 1e6
             : (d['income-in-currency'] * filters.exchangeRate) / 1e6;
+
+        // Apply prestacional factor ONLY for people with Laboral contract
+        if (d['contract-type'] === 'Laboral') {
+          baseSalary = baseSalary * (1 + filters['factor-prestacional']);
+        }
+
+        d['income-cop'] = baseSalary;
         return d;
       });
 
@@ -123,6 +132,20 @@ function App() {
                 max={4500}
                 step={10}
               />
+              <b>Factor Prestacional para empleados con contrato laboral (%)</b>
+              <Slider
+                variable="factor-prestacional"
+                updateChart={updateChart}
+                min={0}
+                defaultValue={0.3}
+                max={1.0}
+                step={0.05}
+              />
+              <p style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
+                Porcentaje adicional aplicado al salario de empleados con
+                contrato laboral para incluir prestaciones sociales (cesantías,
+                prima, vacaciones, etc.)
+              </p>
               <b>¿Cuántos años de experiencia tienes?</b>
               <Slider
                 variable="experience"

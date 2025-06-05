@@ -15,7 +15,12 @@ const Slider = (props) => {
     const height = 120;
     const margin = { top: 20, right: 30, bottom: 50, left: 30 };
 
-    const data = d3.range(min, max + 1, step).map((d) => ({
+    // For factor-prestacional, we want to stop at exactly max (1.0), not max + 1
+    const dataRange = variable === 'factor-prestacional' 
+      ? d3.range(min, max + step, step)
+      : d3.range(min, max + 1, step);
+    
+    const data = dataRange.map((d) => ({
       key: d,
       value: d,
     }));
@@ -98,6 +103,8 @@ const Slider = (props) => {
       <p>
         {variable === 'exchangeRate'
           ? d3.format('($,.0f')(selectedValue)
+          : variable === 'factor-prestacional'
+          ? `${Math.round(selectedValue * 100)}%`
           : selectedValue}
       </p>
       <div id="slider-new-york-times" ref={ref}></div>
