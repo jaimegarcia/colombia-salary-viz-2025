@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Slider from './components/slider';
 import Bar from './components/bar';
-import { Box, Grid, AppBar, Toolbar, Typography } from '@mui/material';
+import { Box, Grid, AppBar, Toolbar, Typography, Button, ButtonGroup, Paper } from '@mui/material';
 import * as d3 from 'd3';
 
 import './App.css';
@@ -32,6 +32,10 @@ function App() {
     'english-level': 1,
     'max-title': 1,
     'factor-prestacional': 0.35, // Default 35% factor
+  });
+  const [contractTypeFilters, setContractTypeFilters] = React.useState({
+    'Laboral': true,
+    'Prestación de servicios/Contractor/Independiente': true,
   });
   const processData = () => {
     d3.csv(salaryFile, (d) => {
@@ -66,6 +70,13 @@ function App() {
     }));
   };
 
+  const toggleContractType = (contractType) => {
+    setContractTypeFilters((prevState) => ({
+      ...prevState,
+      [contractType]: !prevState[contractType],
+    }));
+  };
+
   useEffect(() => {
     processData(setSalaryData, setLoading);
   }, []);
@@ -93,7 +104,8 @@ function App() {
           filters.experience >= d['min-experience'] &&
           filters.experience <= d['max-experience'] &&
           filters['english-level'] === d['english-level'] &&
-          filters['max-title'] === d['max-title']
+          filters['max-title'] === d['max-title'] &&
+          contractTypeFilters[d['contract-type']]
       );
 
       setFilteredData(newSalaryData);
@@ -102,7 +114,7 @@ function App() {
       );
       setNumberOfPeople(newSalaryData.length);
     }
-  }, [filters]);
+  }, [filters, contractTypeFilters, salaryData]);
 
   return (
     <div className="App">
@@ -120,6 +132,27 @@ function App() {
 
       {!loading && (
         <Box style={{ padding: 16 }}>
+          <Paper elevation={2} style={{ padding: 16, marginBottom: 16 }}>
+            <Typography variant="h6" gutterBottom>
+              <b>Tipo de Contratos</b>
+            </Typography>
+            <ButtonGroup variant="outlined" aria-label="contract type filter">
+              <Button
+                onClick={() => toggleContractType('Laboral')}
+                variant={contractTypeFilters['Laboral'] ? 'contained' : 'outlined'}
+                color={contractTypeFilters['Laboral'] ? 'primary' : 'inherit'}
+              >
+                Laboral
+              </Button>
+              <Button
+                onClick={() => toggleContractType('Prestación de servicios/Contractor/Independiente')}
+                variant={contractTypeFilters['Prestación de servicios/Contractor/Independiente'] ? 'contained' : 'outlined'}
+                color={contractTypeFilters['Prestación de servicios/Contractor/Independiente'] ? 'primary' : 'inherit'}
+              >
+                Contractor/Independiente
+              </Button>
+            </ButtonGroup>
+          </Paper>
           <br />
           <Grid container spacing={3}>
             <Grid item xs={12} md={4}>

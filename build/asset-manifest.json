@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/colombia-salary-viz-2025/static/css/main.5bbed16c.css",
-    "main.js": "/colombia-salary-viz-2025/static/js/main.6cee58e6.js",
-    "static/media/salaries-2025-processed.csv": "/colombia-salary-viz-2025/static/media/salaries-2025-processed.20ba5b6e7a3a01ab2bdc.csv",
+    "main.js": "/colombia-salary-viz-2025/static/js/main.7d463e9a.js",
+    "static/media/salaries-2025-processed.csv": "/colombia-salary-viz-2025/static/media/salaries-2025-processed.9055cd86f0dc971647b9.csv",
     "index.html": "/colombia-salary-viz-2025/index.html",
     "main.5bbed16c.css.map": "/colombia-salary-viz-2025/static/css/main.5bbed16c.css.map",
-    "main.6cee58e6.js.map": "/colombia-salary-viz-2025/static/js/main.6cee58e6.js.map"
+    "main.7d463e9a.js.map": "/colombia-salary-viz-2025/static/js/main.7d463e9a.js.map"
   },
   "entrypoints": [
     "static/css/main.5bbed16c.css",
-    "static/js/main.6cee58e6.js"
+    "static/js/main.7d463e9a.js"
   ]
 }
