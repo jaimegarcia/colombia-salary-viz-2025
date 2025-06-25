@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Slider from './components/slider';
 import Bar from './components/bar';
-import { Box, Grid, AppBar, Toolbar, Typography, Button, ButtonGroup, Paper } from '@mui/material';
+import { Box, Grid, AppBar, Toolbar, Typography, Button, ButtonGroup, Paper, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import * as d3 from 'd3';
 
 import './App.css';
@@ -23,6 +23,8 @@ const educationTitles = [
 function App() {
   const [loading, setLoading] = useState(true);
   const [salaryMean, setSalaryMean] = useState(0);
+  const [salaryMedian, setSalaryMedian] = useState(0);
+  const [showMedian, setShowMedian] = useState(false);
   const [numberOfPeople, setNumberOfPeople] = useState(0);
   const [salaryData, setSalaryData] = useState(null);
   const [filteredData, setFilteredData] = useState(null);
@@ -112,6 +114,9 @@ function App() {
       setSalaryMean(
         Math.round(d3.mean(newSalaryData, (d) => d['income-cop']) * 1000) / 1000
       );
+      setSalaryMedian(
+        Math.round(d3.median(newSalaryData, (d) => d['income-cop']) * 1000) / 1000
+      );
       setNumberOfPeople(newSalaryData.length);
     }
   }, [filters, contractTypeFilters, salaryData]);
@@ -190,6 +195,25 @@ function App() {
             <Grid item xs={12} md={8}>
               <Grid container spacing={3}>
                 <Grid item xs={12}>
+                  <Box sx={{ mb: 2 }}>
+                    <ToggleButtonGroup
+                      value={showMedian ? 'median' : 'mean'}
+                      exclusive
+                      onChange={(event, newValue) => {
+                        if (newValue !== null) {
+                          setShowMedian(newValue === 'median');
+                        }
+                      }}
+                      aria-label="metric selection"
+                    >
+                      <ToggleButton value="mean" aria-label="mean">
+                        Promedio
+                      </ToggleButton>
+                      <ToggleButton value="median" aria-label="median">
+                        Mediana
+                      </ToggleButton>
+                    </ToggleButtonGroup>
+                  </Box>
                   <b>
                     <span>
                       Hay {numberOfPeople} persona
@@ -197,7 +221,7 @@ function App() {
                       con un perfil parecido al tuyo
                     </span>
                     {numberOfPeople > 0 && (
-                      <span> y ganan en promedio el equivalente a</span>
+                      <span> y ganan en {showMedian ? 'mediana' : 'promedio'} el equivalente a</span>
                     )}
                   </b>
                   <h2>
@@ -207,7 +231,7 @@ function App() {
                           {' '}
                           <h2>
                             <span className="salary-value">
-                              {d3.format('($,.1f')(salaryMean)} Millones de
+                              {d3.format('($,.1f')(showMedian ? salaryMedian : salaryMean)} Millones de
                               pesos al año
                             </span>
                           </h2>
@@ -215,7 +239,7 @@ function App() {
                         <span className="salary-value">
                           {' '}
                           <span>
-                            {d3.format('($,.1f')(salaryMean / 12)} Millones
+                            {d3.format('($,.1f')((showMedian ? salaryMedian : salaryMean) / 12)} Millones
                           </span>{' '}
                           de pesos mensuales
                         </span>
@@ -226,7 +250,7 @@ function App() {
                 {numberOfPeople > 0 && filteredData && (
                   <Grid item xs={12} md={6}>
                     <b>
-                      Promedios por Lenguaje de Programación (Millones de pesos)
+                      {showMedian ? 'Medianas' : 'Promedios'} por Lenguaje de Programación (Millones de pesos)
                     </b>
                     <Bar
                       x="main-programming-language"
@@ -234,27 +258,30 @@ function App() {
                       margin={{ top: 1.5, right: 50, bottom: 50, left: 100 }}
                       height={550}
                       data={filteredData}
+                      metric={showMedian ? 'median' : 'mean'}
                     />
                   </Grid>
                 )}
 
                 {numberOfPeople > 0 && filteredData && (
                   <Grid item xs={12} md={6}>
-                    <b>Promedios por Tipo de Empresa (Millones de pesos)</b>
+                    <b>{showMedian ? 'Medianas' : 'Promedios'} por Tipo de Empresa (Millones de pesos)</b>
                     <Bar
                       x="company-type"
                       y="income-cop"
                       margin={{ top: 1.5, right: 50, bottom: 50, left: 220 }}
                       height={225}
                       data={filteredData}
+                      metric={showMedian ? 'median' : 'mean'}
                     />
-                    <b>Promedios por Modo de Trabajo (Millones de pesos)</b>
+                    <b>{showMedian ? 'Medianas' : 'Promedios'} por Modo de Trabajo (Millones de pesos)</b>
                     <Bar
                       x="workmode"
                       y="income-cop"
                       margin={{ top: 1.5, right: 50, bottom: 50, left: 100 }}
                       height={325}
                       data={filteredData}
+                      metric={showMedian ? 'median' : 'mean'}
                     />
                   </Grid>
                 )}
