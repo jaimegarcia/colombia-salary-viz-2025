@@ -132,28 +132,6 @@ function App() {
 
       {!loading && (
         <Box style={{ padding: 16 }}>
-          <Paper elevation={2} style={{ padding: 16, marginBottom: 16 }}>
-            <Typography variant="h6" gutterBottom>
-              <b>Tipo de Contratos</b>
-            </Typography>
-            <ButtonGroup variant="outlined" aria-label="contract type filter">
-              <Button
-                onClick={() => toggleContractType('Laboral')}
-                variant={contractTypeFilters['Laboral'] ? 'contained' : 'outlined'}
-                color={contractTypeFilters['Laboral'] ? 'primary' : 'inherit'}
-              >
-                Laboral
-              </Button>
-              <Button
-                onClick={() => toggleContractType('Prestación de servicios/Contractor/Independiente')}
-                variant={contractTypeFilters['Prestación de servicios/Contractor/Independiente'] ? 'contained' : 'outlined'}
-                color={contractTypeFilters['Prestación de servicios/Contractor/Independiente'] ? 'primary' : 'inherit'}
-              >
-                Contractor/Independiente
-              </Button>
-            </ButtonGroup>
-          </Paper>
-          <br />
           <Grid container spacing={3}>
             <Grid item xs={12} md={4}>
               <b>¿Qué tasa de conversión de dólar deseas utilizar?</b>
