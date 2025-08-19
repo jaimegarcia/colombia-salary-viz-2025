@@ -16,10 +16,11 @@ const Slider = (props) => {
     const margin = { top: 20, right: 30, bottom: 50, left: 30 };
 
     // For factor-prestacional, we want to stop at exactly max (1.0), not max + 1
-    const dataRange = variable === 'factor-prestacional' 
-      ? d3.range(min, max + step, step)
-      : d3.range(min, max + 1, step);
-    
+    const dataRange =
+      variable === 'factor-prestacional'
+        ? d3.range(min, max + step, step)
+        : d3.range(min, max + 1, step);
+
     const data = dataRange.map((d) => ({
       key: d,
       value: d,

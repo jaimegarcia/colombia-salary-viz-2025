@@ -7,7 +7,7 @@ const Bar = (props) => {
   const { x, y, margin, data, height, metric } = props;
   const cx = crossfilter(data);
   const dimension = cx.dimension((d) => d[x]);
-let group;
+  let group;
   if (metric === 'mean') {
     group = dimension.group().reduce(
       (p, v) => {
@@ -34,18 +34,20 @@ let group;
         p.values.push(v[y]);
         p.values.sort(d3.ascending);
         const middle = Math.floor(p.values.length / 2);
-        p.median = p.values.length % 2 !== 0 ?
-          p.values[middle] :
-          (p.values[middle - 1] + p.values[middle]) / 2;
+        p.median =
+          p.values.length % 2 !== 0
+            ? p.values[middle]
+            : (p.values[middle - 1] + p.values[middle]) / 2;
         return p;
       },
       (p, v) => {
-        p.values = p.values.filter(value => value !== v[y]);
+        p.values = p.values.filter((value) => value !== v[y]);
         p.values.sort(d3.ascending);
         const middle = Math.floor(p.values.length / 2);
-        p.median = p.values.length % 2 !== 0 ?
-          p.values[middle] :
-          (p.values[middle - 1] + p.values[middle]) / 2;
+        p.median =
+          p.values.length % 2 !== 0
+            ? p.values[middle]
+            : (p.values[middle - 1] + p.values[middle]) / 2;
         return p;
       },
       () => ({
@@ -60,18 +62,25 @@ let group;
       <ResponsiveBar
         margin={margin}
         padding={0.2}
-data={group
+        data={group
           .top(Infinity)
           .map((d) => {
             d.valueToShow = metric === 'mean' ? d.value.avg : d.value.median;
             d.valueToShow = Math.round(d.valueToShow * 1000) / 1000;
+            // Change "Otro lenguaje de programación" to "Otro" for programming language bars
+            if (
+              x === 'main-programming-language' &&
+              d.key === 'Otro lenguaje de programación'
+            ) {
+              d.key = 'Otro';
+            }
             return d;
           })
           .sort((a, b) => d3.ascending(a.valueToShow, b.valueToShow))}
         indexBy="key"
         enableGridX={true}
         enableGridY={true}
-keys={['valueToShow']}
+        keys={['valueToShow']}
         colors={['#F1E15B']}
         borderWidth={3}
         borderColor="#000"
