@@ -1,7 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import Slider from './components/slider';
 import Bar from './components/bar';
-import { Box, Grid, AppBar, Toolbar, Typography, Button, ButtonGroup, Paper, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import {
+  Box,
+  Grid,
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  ButtonGroup,
+  Paper,
+  ToggleButton,
+  ToggleButtonGroup,
+} from '@mui/material';
 import * as d3 from 'd3';
 
 import './App.css';
@@ -36,7 +47,7 @@ function App() {
     'factor-prestacional': 0.35, // Default 35% factor
   });
   const [contractTypeFilters, setContractTypeFilters] = React.useState({
-    'Laboral': true,
+    Laboral: true,
     'Prestación de servicios/Contractor/Independiente': true,
   });
   const processData = () => {
@@ -115,7 +126,8 @@ function App() {
         Math.round(d3.mean(newSalaryData, (d) => d['income-cop']) * 1000) / 1000
       );
       setSalaryMedian(
-        Math.round(d3.median(newSalaryData, (d) => d['income-cop']) * 1000) / 1000
+        Math.round(d3.median(newSalaryData, (d) => d['income-cop']) * 1000) /
+          1000
       );
       setNumberOfPeople(newSalaryData.length);
     }
@@ -221,7 +233,11 @@ function App() {
                       con un perfil parecido al tuyo
                     </span>
                     {numberOfPeople > 0 && (
-                      <span> y ganan en {showMedian ? 'mediana' : 'promedio'} el equivalente a</span>
+                      <span>
+                        {' '}
+                        y ganan en {showMedian ? 'mediana' : 'promedio'} el
+                        equivalente a
+                      </span>
                     )}
                   </b>
                   <h2>
@@ -231,15 +247,20 @@ function App() {
                           {' '}
                           <h2>
                             <span className="salary-value">
-                              {d3.format('($,.1f')(showMedian ? salaryMedian : salaryMean)} Millones de
-                              pesos al año
+                              {d3.format('($,.1f')(
+                                showMedian ? salaryMedian : salaryMean
+                              )}{' '}
+                              Millones de pesos al año
                             </span>
                           </h2>
                         </span>
                         <span className="salary-value">
                           {' '}
                           <span>
-                            {d3.format('($,.1f')((showMedian ? salaryMedian : salaryMean) / 12)} Millones
+                            {d3.format('($,.1f')(
+                              (showMedian ? salaryMedian : salaryMean) / 12
+                            )}{' '}
+                            Millones
                           </span>{' '}
                           de pesos mensuales
                         </span>
@@ -250,7 +271,8 @@ function App() {
                 {numberOfPeople > 0 && filteredData && (
                   <Grid item xs={12} md={6}>
                     <b>
-                      {showMedian ? 'Medianas' : 'Promedios'} por Lenguaje de Programación (Millones de pesos)
+                      {showMedian ? 'Medianas' : 'Promedios'} por Lenguaje de
+                      Programación (Millones de pesos al año)
                     </b>
                     <Bar
                       x="main-programming-language"
@@ -265,7 +287,10 @@ function App() {
 
                 {numberOfPeople > 0 && filteredData && (
                   <Grid item xs={12} md={6}>
-                    <b>{showMedian ? 'Medianas' : 'Promedios'} por Tipo de Empresa (Millones de pesos)</b>
+                    <b>
+                      {showMedian ? 'Medianas' : 'Promedios'} por Tipo de
+                      Empresa (Millones de pesos al año)
+                    </b>
                     <Bar
                       x="company-type"
                       y="income-cop"
@@ -274,7 +299,10 @@ function App() {
                       data={filteredData}
                       metric={showMedian ? 'median' : 'mean'}
                     />
-                    <b>{showMedian ? 'Medianas' : 'Promedios'} por Modo de Trabajo (Millones de pesos)</b>
+                    <b>
+                      {showMedian ? 'Medianas' : 'Promedios'} por Modo de
+                      Trabajo (Millones de pesos al año)
+                    </b>
                     <Bar
                       x="workmode"
                       y="income-cop"
