@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Slider from './components/slider';
+import RangeSlider from './components/rangeslider';
 import Bar from './components/bar';
 import {
   Box,
@@ -41,9 +42,9 @@ function App() {
   const [filteredData, setFilteredData] = useState(null);
   const [filters, setFilters] = React.useState({
     exchangeRate: 4300,
-    experience: 0,
-    'english-level': 1,
-    'max-title': 1,
+    experience: { min: 0, max: 15 }, // Changed to range
+    'english-level': { min: 0, max: 4 }, // Changed to range
+    'max-title': { min: 0, max: 7 }, // Changed to range
     'factor-prestacional': 0.35, // Default 35% factor
   });
   const [contractTypeFilters, setContractTypeFilters] = React.useState({
@@ -83,6 +84,13 @@ function App() {
     }));
   };
 
+  const updateRangeChart = (name, min, max) => {
+    setFilters((prevState) => ({
+      ...prevState,
+      [name]: { min, max },
+    }));
+  };
+
   const toggleContractType = (contractType) => {
     setContractTypeFilters((prevState) => ({
       ...prevState,
@@ -114,10 +122,12 @@ function App() {
       newSalaryData = newSalaryData.filter(
         (d) =>
           d['income-cop'] <= maxSalary &&
-          filters.experience >= d['min-experience'] &&
-          filters.experience <= d['max-experience'] &&
-          filters['english-level'] === d['english-level'] &&
-          filters['max-title'] === d['max-title'] &&
+          d['min-experience'] <= filters.experience.max &&
+          d['max-experience'] >= filters.experience.min &&
+          d['english-level'] >= filters['english-level'].min &&
+          d['english-level'] <= filters['english-level'].max &&
+          d['max-title'] >= filters['max-title'].min &&
+          d['max-title'] <= filters['max-title'].max &&
           contractTypeFilters[d['contract-type']]
       );
 
@@ -175,30 +185,33 @@ function App() {
                 prima, vacaciones, etc.)
               </p>
               <b>¿Cuántos años de experiencia tienes?</b>
-              <Slider
+              <RangeSlider
                 variable="experience"
-                updateChart={updateChart}
+                updateRangeChart={updateRangeChart}
                 min={0}
-                defaultValue={5}
+                defaultMin={0}
+                defaultMax={15}
                 max={15}
                 step={1}
               />
               <b>¿Cuál es tu nivel de ingles?</b>
-              <Slider
+              <RangeSlider
                 variable="english-level"
-                updateChart={updateChart}
+                updateRangeChart={updateRangeChart}
                 min={0}
-                defaultValue={2}
+                defaultMin={0}
+                defaultMax={4}
                 max={4}
                 step={1}
                 ordinalScale={englishLevels}
               />
               <b>¿Cuál es tu máximo nivel de formación?</b>
-              <Slider
+              <RangeSlider
                 variable="max-title"
-                updateChart={updateChart}
+                updateRangeChart={updateRangeChart}
                 min={0}
-                defaultValue={4}
+                defaultMin={0}
+                defaultMax={7}
                 max={7}
                 step={1}
                 ordinalScale={educationTitles}
