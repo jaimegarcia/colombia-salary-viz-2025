@@ -70,6 +70,9 @@ const Slider = (props) => {
           .sliderBottom(xLinear)
           .step(step)
           .ticks(4)
+          .tickFormat(
+            variable === 'factor-prestacional' ? d3.format('.2f') : null
+          )
           .default(defaultValue)
           .on('onchange', (value) => draw(value))
       );
