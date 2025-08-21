@@ -20,8 +20,8 @@ const RangeSlider = (props) => {
 
   useEffect(() => {
     const width = 320;
-    const height = 120;
-    const margin = { top: 20, right: 30, bottom: 50, left: 30 };
+    const height = 80;
+    const margin = { top: 20, right: 30, bottom: 60, left: 30 };
 
     const svg = d3
       .select(ref.current)
