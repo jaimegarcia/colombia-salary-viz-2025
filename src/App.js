@@ -165,8 +165,8 @@ function App() {
               <Slider
                 variable="exchangeRate"
                 updateChart={updateChart}
-                min={4000}
-                defaultValue={4300}
+                min={3500}
+                defaultValue={4000}
                 max={4500}
                 step={10}
               />
@@ -175,7 +175,7 @@ function App() {
                 variable="factor-prestacional"
                 updateChart={updateChart}
                 min={0}
-                defaultValue={0.3}
+                defaultValue={0.45}
                 max={1.0}
                 step={0.05}
               />
