@@ -91,6 +91,12 @@ const Bar = (props) => {
         isInteractive={true}
         animate={false}
         layout="horizontal"
+        axisBottom={{
+          tickSize: 5,
+          tickPadding: 5,
+          tickRotation: 0,
+          tickValues: 5,
+        }}
       />
     </div>
   );
