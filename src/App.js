@@ -212,8 +212,8 @@ function App() {
               <RangeSlider
                 variable="max-title"
                 updateRangeChart={updateRangeChart}
-                min={0}
-                defaultMin={0}
+                min={1}
+                defaultMin={1}
                 defaultMax={7}
                 max={7}
                 step={1}
