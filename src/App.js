@@ -122,7 +122,10 @@ function App() {
       newSalaryData = newSalaryData.filter(
         (d) =>
           d['income-cop'] <= maxSalary &&
-          d['min-experience'] <= filters.experience.max &&
+          d['min-experience'] <=
+            (filters.experience.max >= 15
+              ? Infinity
+              : filters.experience.max) &&
           d['max-experience'] >= filters.experience.min &&
           d['english-level'] >= filters['english-level'].min &&
           d['english-level'] <= filters['english-level'].max &&

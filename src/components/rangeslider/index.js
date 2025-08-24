@@ -59,6 +59,10 @@ const RangeSlider = (props) => {
     if (ordinalScale) {
       return ordinalScale[value] || value;
     }
+    // Handle experience "15+" case
+    if (variable === 'experience' && value >= max && max === 15) {
+      return '15+';
+    }
     return value;
   };
 
