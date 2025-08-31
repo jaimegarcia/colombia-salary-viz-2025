@@ -23,14 +23,13 @@ import salaryFile from './data/salaries-2025-processed.csv';
 const maxSalary = 1000000000;
 const englishLevels = ['Ninguno', 'Básico', 'Intermedio', 'Avanzado', 'Nativo'];
 const educationTitles = [
-  'Ninguno',
+  '', // placeholder for index 0
+  'Ninguna',
   'Bachiller',
-  'Técnico',
-  'Tecnólogo',
+  'Técnica',
+  'Tecnóloga/o',
   'Pregrado',
-  'Especialista',
-  'Maestría',
-  'Doctorado',
+  'Posgrado',
 ];
 function App() {
   const [loading, setLoading] = useState(true);
@@ -219,8 +218,8 @@ function App() {
                 updateRangeChart={updateRangeChart}
                 min={1}
                 defaultMin={1}
-                defaultMax={7}
-                max={7}
+                defaultMax={6}
+                max={6}
                 step={1}
                 ordinalScale={educationTitles}
               />

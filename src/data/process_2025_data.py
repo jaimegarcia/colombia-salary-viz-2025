@@ -150,12 +150,14 @@ def load_and_process_data():
         
         # Process the valid record
         try:
-            # Map education level to numeric (1-5)
+            # Map education level to numeric (1-6)
             education_mapping = {
-                'Técnico': 2,
-                'Tecnólogo': 3,
-                'Pregrado': 4,
-                'Posgrado': 5
+                'Ninguna': 1,
+                'Bachiller': 2,
+                'Técnica': 3,
+                'Tecnóloga/o': 4,
+                'Pregrado': 5,
+                'Posgrado': 6
             }
             education_numeric = education_mapping.get(education, 1)  # Default to 1 if not found
             
