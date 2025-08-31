@@ -37,6 +37,7 @@ function App() {
   const [salaryMean, setSalaryMean] = useState(0);
   const [salaryMedian, setSalaryMedian] = useState(0);
   const [showMedian, setShowMedian] = useState(false);
+  const [displayCurrency, setDisplayCurrency] = useState('COP'); // Add currency state
   const [numberOfPeople, setNumberOfPeople] = useState(0);
   const [salaryData, setSalaryData] = useState(null);
   const [filteredData, setFilteredData] = useState(null);
@@ -96,6 +97,10 @@ function App() {
       ...prevState,
       [contractType]: !prevState[contractType],
     }));
+  };
+
+  const getCurrencyLabel = () => {
+    return displayCurrency === 'USD' ? 'USD al año' : 'Millones de pesos al año';
   };
 
   useEffect(() => {
@@ -233,12 +238,30 @@ function App() {
                         }
                       }}
                       aria-label="metric selection"
+                      sx={{ mr: 2 }}
                     >
                       <ToggleButton value="mean" aria-label="mean">
                         Promedio
                       </ToggleButton>
                       <ToggleButton value="median" aria-label="median">
                         Mediana
+                      </ToggleButton>
+                    </ToggleButtonGroup>
+                    <ToggleButtonGroup
+                      value={displayCurrency}
+                      exclusive
+                      onChange={(event, newValue) => {
+                        if (newValue !== null) {
+                          setDisplayCurrency(newValue);
+                        }
+                      }}
+                      aria-label="currency selection"
+                    >
+                      <ToggleButton value="COP" aria-label="cop">
+                        COP
+                      </ToggleButton>
+                      <ToggleButton value="USD" aria-label="usd">
+                        USD
                       </ToggleButton>
                     </ToggleButtonGroup>
                   </Box>
@@ -263,22 +286,44 @@ function App() {
                           {' '}
                           <h2>
                             <span className="salary-value">
-                              {d3.format('($,.1f')(
-                                showMedian ? salaryMedian : salaryMean
-                              )}{' '}
-                              Millones de pesos al año
+                              {displayCurrency === 'USD' ? (
+                                <>
+                                  {d3.format('($,.0f')(
+                                    ((showMedian ? salaryMedian : salaryMean) * 1000000) / filters.exchangeRate
+                                  )}{' '}
+                                  USD al año
+                                </>
+                              ) : (
+                                <>
+                                  {d3.format('($,.1f')(
+                                    showMedian ? salaryMedian : salaryMean
+                                  )}{' '}
+                                  Millones de pesos al año
+                                </>
+                              )}
                             </span>
                           </h2>
                         </span>
                         <span className="salary-value">
                           {' '}
                           <span>
-                            {d3.format('($,.1f')(
-                              (showMedian ? salaryMedian : salaryMean) / 12
-                            )}{' '}
-                            Millones
+                            {displayCurrency === 'USD' ? (
+                              <>
+                                {d3.format('($,.0f')(
+                                  ((showMedian ? salaryMedian : salaryMean) * 1000000) / filters.exchangeRate / 12
+                                )}{' '}
+                                USD
+                              </>
+                            ) : (
+                              <>
+                                {d3.format('($,.1f')(
+                                  (showMedian ? salaryMedian : salaryMean) / 12
+                                )}{' '}
+                                Millones
+                              </>
+                            )}
                           </span>{' '}
-                          de pesos mensuales
+                          {displayCurrency === 'USD' ? 'mensuales' : 'de pesos mensuales'}
                         </span>
                       </React.Fragment>
                     )}
@@ -288,7 +333,7 @@ function App() {
                   <Grid item xs={12} md={6}>
                     <b>
                       {showMedian ? 'Medianas' : 'Promedios'} por Lenguaje de
-                      Programación (Millones de pesos al año)
+                      Programación ({getCurrencyLabel()})
                     </b>
                     <Bar
                       x="main-programming-language"
@@ -297,6 +342,8 @@ function App() {
                       height={550}
                       data={filteredData}
                       metric={showMedian ? 'median' : 'mean'}
+                      displayCurrency={displayCurrency}
+                      exchangeRate={filters.exchangeRate}
                     />
                   </Grid>
                 )}
@@ -305,7 +352,7 @@ function App() {
                   <Grid item xs={12} md={6}>
                     <b>
                       {showMedian ? 'Medianas' : 'Promedios'} por Tipo de
-                      Empresa (Millones de pesos al año)
+                      Empresa ({getCurrencyLabel()})
                     </b>
                     <Bar
                       x="company-type"
@@ -314,10 +361,12 @@ function App() {
                       height={225}
                       data={filteredData}
                       metric={showMedian ? 'median' : 'mean'}
+                      displayCurrency={displayCurrency}
+                      exchangeRate={filters.exchangeRate}
                     />
                     <b>
                       {showMedian ? 'Medianas' : 'Promedios'} por Modo de
-                      Trabajo (Millones de pesos al año)
+                      Trabajo ({getCurrencyLabel()})
                     </b>
                     <Bar
                       x="workmode"
@@ -326,6 +375,8 @@ function App() {
                       height={325}
                       data={filteredData}
                       metric={showMedian ? 'median' : 'mean'}
+                      displayCurrency={displayCurrency}
+                      exchangeRate={filters.exchangeRate}
                     />
                   </Grid>
                 )}

@@ -1,10 +1,10 @@
 import React from 'react';
 import * as d3 from 'd3';
-import * as crossfilter from 'crossfilter2/crossfilter';
+import crossfilter from 'crossfilter2/crossfilter';
 import { ResponsiveBar } from '@nivo/bar';
 
 const Bar = (props) => {
-  const { x, y, margin, data, height, metric } = props;
+  const { x, y, margin, data, height, metric, displayCurrency = 'COP', exchangeRate = 4300 } = props;
   const cx = crossfilter(data);
   const dimension = cx.dimension((d) => d[x]);
   let group;
@@ -62,6 +62,15 @@ const Bar = (props) => {
     .map((d) => {
       d.valueToShow = metric === 'mean' ? d.value.avg : d.value.median;
       d.valueToShow = Math.round(d.valueToShow * 1000) / 1000;
+      
+      // Add formatted label based on currency
+      if (displayCurrency === 'USD') {
+        const usdValue = (d.valueToShow * 1000000) / exchangeRate;
+        d.formattedLabel = d3.format('($,.0f')(usdValue);
+      } else {
+        d.formattedLabel = d3.format('($,.1f')(d.valueToShow);
+      }
+      
       // Change "Otro lenguaje de programación" to "Otro" for programming language bars
       if (
         x === 'main-programming-language' &&
@@ -87,6 +96,7 @@ const Bar = (props) => {
   return (
     <div style={{ height: height }}>
       <ResponsiveBar
+        key={displayCurrency}
         margin={margin}
         padding={0.2}
         data={processedData}
@@ -102,9 +112,29 @@ const Bar = (props) => {
         borderWidth={3}
         borderColor="#000"
         enableLabel={true}
-        labelFormat={(v) => `${d3.format('($,.1f')(v)}`}
+        label={(d) => d.data.formattedLabel}
         labelSkipWidth={20}
-        tooltipFormat={(v) => `${d3.format('($,.1f')(v)}`}
+        tooltip={({ indexValue, value }) => {
+          const displayValue = displayCurrency === 'USD' 
+            ? `${d3.format('($,.0f')((value * 1000000) / exchangeRate)} USD`
+            : `${d3.format('($,.1f')(value)} Millones`;
+          
+          return (
+            <div style={{ 
+              background: '#333', 
+              color: 'white', 
+              padding: '8px 12px', 
+              border: 'none', 
+              borderRadius: '4px',
+              fontSize: '12px',
+              fontFamily: 'Arial, sans-serif',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+            }}>
+              <div style={{ fontWeight: 'bold', marginBottom: '2px' }}>{indexValue}</div>
+              <div>{displayValue}</div>
+            </div>
+          );
+        }}
         isInteractive={true}
         animate={false}
         layout="horizontal"
